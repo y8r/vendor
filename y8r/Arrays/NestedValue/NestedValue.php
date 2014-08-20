@@ -1,18 +1,22 @@
 <?php
+
+namespace Y8r\Arrays;
+
 /**
  * Array Nested Value
- * 
+ *
  * Returns the value of a nested array with a variable depth
- * 
+ *
  * @author Jeff Yates <jeff@jeffyates.com>
+ * @package Y8r\Arrays;
  * @version 1.0.0
- * 
+ *
  * <code>
  *      // Example response array
  *      $response['test']['of']['this'] = 0;
- *      
+ *
  *      // Instantiate class
- *      $nestedValue = new ArrayNestedValue;
+ *      $nestedValue = new Y8r\Array\NestedValue;
  *
  *      // Example usage
  *      $array       = $nestedValue->get(array('test', 'of', 'this'), $response);
@@ -28,15 +32,15 @@
  *
  * @todo enable use of a json object
  */
-class ArrayNestedValue
+class NestedValue
 {
     public function __construct(){}
-    
+
     public function __destruct(){}
-    
+
     /**
      * Main Method
-     * 
+     *
      * Detect needle type invoke the cooreleated method
      *
      * @param  mixed  $needle
@@ -52,10 +56,10 @@ class ArrayNestedValue
             return $this->valueByString($needle, $haystack, $delimiter);
         }
     }
-    
+
     /**
      * Value by Array notation
-     * 
+     *
      * @param  array  $needle
      * @param  array  $haystack
      * @return mixed
@@ -65,18 +69,18 @@ class ArrayNestedValue
         $return = &$haystack;
         foreach ($needle as $key) {
             if (array_key_exists($key, $return) === true) {
-                $return = &$return[$key];   
+                $return = &$return[$key];
             } else {
                 return false;
             }
         }
-        
+
         return $return;
     }
-    
+
     /**
      * Value by String notation
-     * 
+     *
      * @param  string  $needle
      * @param  array   $haystack
      * @param  string  $delimiter
@@ -90,7 +94,7 @@ class ArrayNestedValue
                     '/\[[\'\"]?/',
                     '/[\'\"]?\]/',
                     sprintf('/%s$/', $delimiter)
-                ), 
+                ),
                 array(
                     '',
                     $delimiter,
@@ -99,7 +103,7 @@ class ArrayNestedValue
                 $needle
             )
         );
-        
+
         return $this->valueByArray($needle, $haystack);
     }
 }
